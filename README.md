@@ -3,7 +3,7 @@
 <img src="./assets/logo.png" width="20%" />
 <br><br>
 
-Another terminal based graphical activity monitor, inspired by [gtop](https://github.com/aksakalli/gtop) and [vtop](https://github.com/MrRio/vtop), this time written in [Go](https://golang.org/)!
+Another terminal based graphical activity monitor, inspired by [gtop](https://github.com/aksakalli/gtop) and [vtop](https://github.com/MrRio/vtop), originally written in Go, and now written in Rust!
 
 <img src="./assets/demo.gif" />
 <img src="./assets/minimal.png" width="96%" />

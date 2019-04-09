@@ -1,2 +1,5 @@
 dist/
 gotop*
+
+/target
+**/*.rs.bk
