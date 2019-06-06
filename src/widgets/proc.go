@@ -65,7 +65,7 @@ func NewProcWidget() *ProcWidget {
 	self.entry = &ui.Entry{
 		Style: self.TitleStyle,
 		Label: " Filter: ",
-		Value: "",
+		Value: []rune{},
 		UpdateCallback: func(val string) {
 			self.filter = val
 			self.update()

@@ -48,3 +48,78 @@ func TestTruncateFront(t *testing.T) {
 		}
 	}
 }
+
+func TestScrollStateMove(t *testing.T) {
+	tests := []struct {
+		name   string
+		in     ScrollState
+		runes  string
+		offset int
+		want   ScrollState
+	}{
+		{
+			name:   "empty",
+			in:     ScrollState{0, 0, 5},
+			runes:  "",
+			offset: 1,
+			want:   ScrollState{0, 0, 5},
+		},
+		{
+			name:   "scroll middle, move right",
+			in:     ScrollState{3, 0, 4},
+			runes:  "abcdef",
+			offset: 1,
+			want:   ScrollState{4, 1, 4},
+		},
+		{
+			name:   "scroll end, move right",
+			in:     ScrollState{3, 1, 4},
+			runes:  "abcdef",
+			offset: 1,
+			want:   ScrollState{4, 1, 4},
+		},
+		{
+			name:   "scroll end, move to end",
+			in:     ScrollState{5, 2, 4},
+			runes:  "abcdef",
+			offset: 1,
+			want:   ScrollState{6, 2, 4},
+		},
+		{
+			name:   "move past end does nothing",
+			in:     ScrollState{6, 2, 4},
+			runes:  "abcdef",
+			offset: 1,
+			want:   ScrollState{6, 2, 4},
+		},
+		{
+			name:   "move back in window",
+			in:     ScrollState{3, 1, 4},
+			runes:  "abcdef",
+			offset: -1,
+			want:   ScrollState{2, 1, 4},
+		},
+		{
+			name:   "move back scroll back",
+			in:     ScrollState{2, 2, 4},
+			runes:  "abcdef",
+			offset: -1,
+			want:   ScrollState{1, 1, 4},
+		},
+		{
+			name:   "backspace from end",
+			in:     ScrollState{6, 4, 4},
+			runes:  "abcdef",
+			offset: -1,
+			want:   ScrollState{5, 2, 4},
+		},
+	}
+
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			if got := test.in.Move([]rune(test.runes), test.offset); got != test.want {
+				t.Errorf("(%v).Move(%q, %d) = %v; want %v", test.in, test.runes, test.offset, got, test.want)
+			}
+		})
+	}
+}
